@@ -43,7 +43,7 @@
                        Margin="10,161,10,0"
                        VerticalAlignment="Top"/>
 
-                <TextBox x:Name="Tblogin"
+                <TextBox x:Name="TbLogin"
                          Height="23"
                          Margin="10,185,10,0"
                          TextWrapping="Wrap"
