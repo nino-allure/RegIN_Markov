@@ -93,6 +93,26 @@ namespace RegIN_Markov.Classes
             Random rnd = new Random();
             char[] ArrNumbers = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             char[] ArrSymbols = { '|', '-', '_', '!', '@', '#', '$', '%', '&', '+', '=', '*' };
+            char[] ArrUpperCase = { 'q', 'w', 'e', 'r'  't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm' };
+            for (int i = 0; i < 1; i++)
+                NewPassword.Add(ArrNumbers[rnd.Next(0, ArrNumbers.Length)]);
+            for (int i = 0; i < 1; i++)
+                NewPassword.Add(ArrSymbols[rnd.Next(0, ArrSymbols.Length)]);
+            for (int i = 0; i < 2; i++)
+                NewPassword.Add(ArrUpperCase[rnd.Next(0, ArrUpperCase.Length)]);
+            for (int i = 0; i < 6; i++)
+                NewPassword.Add(ArrUpperCase[rnd.Next(0, ArrUpperCase.Length)]);
+            for (int i =0; i < NewPassword.Count; i ++)
+            {
+                int RandomSymbol = rnd.Next(0, NewPassword.Count);
+                char Symbol = NewPassword[RandomSymbol];
+                NewPassword[RandomSymbol] = NewPassword[i];
+                NewPassword[i] = Symbol;
+            }
+            string NPassword = "";
+            for (int i = 0; i < NewPassword.Count; i ++)
+                NPassword += NewPassword[i];
+            return NPassword
         }
     }
 }
