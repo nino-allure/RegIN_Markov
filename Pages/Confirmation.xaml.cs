@@ -84,7 +84,7 @@ namespace RegIN_Markov.Pages
                 else
                 {
                     MainWindow.mainWindow.UserLogin.SetUser();
-                    MessageBox.Show("Authorization is succesful")
+                    MessageBox.Show("Authorization is succesful");
                 }
             }
         }

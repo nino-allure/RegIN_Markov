@@ -16,6 +16,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RegIN_Markov.Pages;
 
 namespace RegIN_Markov.Pages
 {
@@ -120,6 +121,11 @@ namespace RegIN_Markov.Pages
             if (TbLogin.Text.Length > 0)
                 // Выводим сообщение о том, что логин введён не верно, цвет текста красный
                 SetNotification("Login is incorrect", Brushes.Red);
+        }
+        public void SetNotification(string Message, SolidColorBrush _Color)
+        {
+            LNameUser.Content = Message;
+            LNameUser.Foreground = _Color;
         }
         private void CorrectCapture()
         {
