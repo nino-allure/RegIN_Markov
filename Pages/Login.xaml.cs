@@ -42,7 +42,7 @@ namespace RegIN_Markov.Pages
             if (OldLogin != TbLogin.Text)
             {
                 // Вызываем метод уведомления, передавая сообщение, имя пользователя и цвет
-                SetNotification("Hi, " + MainWindow.mainWindow.UserLogIn.Name, Brushes.Black);
+                SetNotification("Hi, " + MainWindow.mainWindow.UserLogin.Name, Brushes.Black);
 
                 // Используем конструкцию try-catch
                 try
@@ -52,7 +52,7 @@ namespace RegIN_Markov.Pages
 
                     // Открываем поток, хранилищем которого является память и указываем в качестве источника
                     // массив байт изображения пользователя
-                    MemoryStream ms = new MemoryStream(MainWindow.mainWindow.UserLogIn.Image);
+                    MemoryStream ms = new MemoryStream(MainWindow.mainWindow.UserLogin.Image);
 
                     // Сигнализируем о начале инициализации
                     biImg.BeginInit();
@@ -145,7 +145,7 @@ namespace RegIN_Markov.Pages
             IsCapture = true;
         }
 
-        private void SetPassword(object sender, KeyEventsArgs e)
+        private void SetPassword(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -166,12 +166,12 @@ namespace RegIN_Markov.Pages
                     {
                         if (CountSetPassword > 0)
                         {
-                            SetNotiffication($"Password is incorrect, {CountSetPassword} attempts left", Brushes.Red);
+                            SetNotification($"Password is incorrect, {CountSetPassword} attempts left", Brushes.Red);
                             CountSetPassword--;
                         }
                         else
                         {
-                            Thread TBlockAuthoriation = new Thread(BlockAuthoriation);
+                            Thread TBlockAuthoriation = new Thread(BlockAuthorization);
                             TBlockAuthoriation.Start();
                             SendMail.SendMessage("An attempt was made to log into your account.", MainWindow.mainWindow.UserLogin.Login);
                         }
@@ -222,24 +222,24 @@ namespace RegIN_Markov.Pages
         {
             if (e.Key == Key.Enter)
             {
-                MainWindow.mainWindow.UserLogIn.GetUserLogin(TbLogin.Text);
+                MainWindow.mainWindow.UserLogin.GetUserLogin(TbLogin.Text);
                 if (TbPassword.Password.Length > 0)
                     SetPassword();
             }
         }
         private void SetLogin(object sender, RoutedEventArgs e)
         {
-            MainWindow.mainWindow.UserLogIn.GetUserLogin(TbLogin.Text);
+            MainWindow.mainWindow.UserLogin.GetUserLogin(TbLogin.Text);
             if (TbPassword.Password.Length > 0)
                 SetPassword();
         }
-        public void SetNottification(string Message, SolidColorBrush _Color)
+        public void SetNotification(string Message, SolidColorBrush _Color)
         {
-            LName_User.Content = Message;
+            LNameUser.Content = Message;
             LNameUser.Foreground = _Color;
         }
-        private void RecoveryPassword(object sender, MouseButtonEventsArgs e) => MainWindow.mainWindow.OpenPage(new Recovery());
-        private void OpenRegin(object sender, MouseButtonEventsArgs e) => MainWindow.mainWindow.OpenPage(new Regin());
+        private void RecoveryPassword(object sender, MouseButtonEventArgs e) => MainWindow.mainWindow.OpenPage(new Recovery());
+        private void OpenRegin(object sender, MouseButtonEventArgs e) => MainWindow.mainWindow.OpenPage(new Regin());
     }
 }
 
