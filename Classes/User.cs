@@ -18,6 +18,7 @@ namespace RegIN_Markov.Classes
         public string Name { get; set; }
         public byte[] Image = new byte[0];
         public DateTime DateUpdate { get; set; }
+        public DateTime DateCreate { get; set; } // Добавлено недостающее свойство
         public CorrectLogin HandlerCorrectLogin;
         public InCorrectLogin HandlerInCorrectLogin;
         public delegate void CorrectLogin();
@@ -46,7 +47,7 @@ namespace RegIN_Markov.Classes
                         userQuery.GetBytes(4, 0, Image, 0, Image.Length);
                     }
                     this.DateUpdate = userQuery.GetDateTime(5);
-                    this.DateUpdate = userQuery.GetDateTime(6);
+                    this.DateCreate = userQuery.GetDateTime(6); // Исправлено: было дважды DateUpdate
                     HandlerCorrectLogin.Invoke();
                 }
                 else
@@ -61,14 +62,14 @@ namespace RegIN_Markov.Classes
             MySqlConnection mySqlConnection = WorkingDB.OpenConnection();
             if (WorkingDB.OpenConnection(mySqlConnection))
             {
-                MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO `users`(`Login`, `Password`, `Name`, `Image`, `DateUpdate`, `DateCreate`) " +
-                    "VALUE (@Login, @Password, @Name, @Image, @DateUpdate, @DateCreate)", mySqlConnection);
+                MySqlCommand mySqlCommand = new MySqlCommand("INSERT INTO `user`(`Login`, `Password`, `Name`, `Image`, `DateUpdate`, `DateCreate`) " + // Исправлено: users -> user
+                    "VALUES (@Login, @Password, @Name, @Image, @DateUpdate, @DateCreate)", mySqlConnection); // Исправлено: VALUE -> VALUES
                 mySqlCommand.Parameters.AddWithValue("@Login", this.Login);
                 mySqlCommand.Parameters.AddWithValue("@Password", this.Password);
                 mySqlCommand.Parameters.AddWithValue("@Name", this.Name);
                 mySqlCommand.Parameters.AddWithValue("@Image", this.Image);
                 mySqlCommand.Parameters.AddWithValue("@DateUpdate", this.DateUpdate);
-                mySqlCommand.Parameters.AddWithValue("@DateUpdate", this.DateUpdate);
+                mySqlCommand.Parameters.AddWithValue("@DateCreate", this.DateCreate); // Исправлено: было дважды DateUpdate
                 mySqlCommand.ExecuteNonQuery();
             }
             WorkingDB.CloseConnection(mySqlConnection);
@@ -102,7 +103,7 @@ namespace RegIN_Markov.Classes
                 NewPassword.Add(ArrUpperCase[rnd.Next(0, ArrUpperCase.Length)]);
             for (int i = 0; i < 6; i++)
                 NewPassword.Add(ArrUpperCase[rnd.Next(0, ArrUpperCase.Length)]);
-            for (int i =0; i < NewPassword.Count; i ++)
+            for (int i = 0; i < NewPassword.Count; i++)
             {
                 int RandomSymbol = rnd.Next(0, NewPassword.Count);
                 char Symbol = NewPassword[RandomSymbol];
@@ -110,10 +111,9 @@ namespace RegIN_Markov.Classes
                 NewPassword[i] = Symbol;
             }
             string NPassword = "";
-            for (int i = 0; i < NewPassword.Count; i ++)
+            for (int i = 0; i < NewPassword.Count; i++)
                 NPassword += NewPassword[i];
             return NPassword;
         }
     }
 }
-       

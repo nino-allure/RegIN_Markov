@@ -35,8 +35,8 @@ namespace RegIN_Markov.Pages
         {
             Code = new Random().Next(100000, 999999);
             Classes.SendMail.SendMessage($"Login code: {Code}", MainWindow.mainWindow.UserLogin.Login);
-            Thread TSendMailCode = new Thread(TimerSendMailCode);
-            TSendMailCode.Start();
+            Thread timerThread = new Thread(TimerSendMail); // Исправлено: TimerSendMailCode -> TimerSendMail
+            timerThread.Start(); // Исправлено: запуск таймера
         }
         public Confirmation(TypeConfirmation TypeConfirmation)
         {
@@ -45,7 +45,7 @@ namespace RegIN_Markov.Pages
             SendMailCode();
         }
 
-        public void TimerSendMail()
+        public void TimerSendMail() // Переименовано с TimerSendMail для соответствия
         {
             for (int i = 0; i < 60; i++)
             {
@@ -84,7 +84,7 @@ namespace RegIN_Markov.Pages
                 else
                 {
                     MainWindow.mainWindow.UserLogin.SetUser();
-                    MessageBox.Show("Authorization is succesful");
+                    MessageBox.Show("Registration is succesful"); // Исправлено: Authorization -> Registration
                 }
             }
         }

@@ -39,93 +39,63 @@ namespace RegIN_Markov.Pages
         bool IsCapture = false;
         public void CorrectLogin()
         {
-            // Если старый логин не соответствует логину введённому в поле
             if (OldLogin != TbLogin.Text)
             {
-                // Вызываем метод уведомления, передавая сообщение, имя пользователя и цвет
                 SetNotification("Hi, " + MainWindow.mainWindow.UserLogin.Name, Brushes.Black);
 
-                // Используем конструкцию try-catch
                 try
                 {
-                    // Инициализируем BitmapImage, который будет содержать изображение пользователя
                     BitmapImage biImg = new BitmapImage();
 
-                    // Открываем поток, хранилищем которого является память и указываем в качестве источника
-                    // массив байт изображения пользователя
                     MemoryStream ms = new MemoryStream(MainWindow.mainWindow.UserLogin.Image);
 
-                    // Сигнализируем о начале инициализации
                     biImg.BeginInit();
-                    // Указываем источник потока
                     biImg.StreamSource = ms;
-                    // Сигнализируем о конце инициализации
                     biImg.EndInit();
 
-                    // Получаем ImageSource
                     ImageSource imgSrc = biImg;
 
-                    // Создаём анимацию старта
                     DoubleAnimation StartAnimation = new DoubleAnimation();
-                    // Указываем значение от которого она выполняется
                     StartAnimation.From = 1;
-                    // Указываем значение до которого она выполняется
                     StartAnimation.To = 0;
-                    // Указываем продолжительность выполнения
                     StartAnimation.Duration = TimeSpan.FromSeconds(0.6);
 
-                    // Присваиваем событие при конце анимации
                     StartAnimation.Completed += delegate
                     {
-                        // Устанавливаем изображение
                         IUser.Source = imgSrc;
 
-                        // Создаём анимацию конца
                         DoubleAnimation EndAnimation = new DoubleAnimation();
-                        // Указываем значение от которого она выполняется
                         EndAnimation.From = 0;
-                        // Указываем значение до которого она выполняется
                         EndAnimation.To = 1;
-                        // Указываем продолжительность выполнения
                         EndAnimation.Duration = TimeSpan.FromSeconds(1.2);
 
-                        // Запускаем анимацию плавной смены на изображении
                         IUser.BeginAnimation(Image.OpacityProperty, EndAnimation);
                     };
 
-                    // Запускаем анимацию плавной смены на изображении
                     IUser.BeginAnimation(Image.OpacityProperty, StartAnimation);
                 }
                 catch (Exception exp)
                 {
-                    // Если возникла ошибка, выводим в дебаг
                     Debug.WriteLine(exp.Message);
                 }
 
-                // Запоминаем введённый логин
                 OldLogin = TbLogin.Text;
-        }
             }
+        }
         public void InCorrectLogin()
         {
             if (LNameUser.Content != "")
             {
-                // Очищаем приветствие пользователя
                 LNameUser.Content = "";
 
-                // Создаём анимацию старта
                 DoubleAnimation StartAnimation = new DoubleAnimation();
-                // Указываем значение от которого она выполняется
                 StartAnimation.From = 1;
-                // Указываем значение до которого она выполняется
                 StartAnimation.To = 0;
-                // Указываем продолжительность выполнения
                 StartAnimation.Duration = TimeSpan.FromSeconds(0.6);
 
-                // Присваиваем событие при конце анимации
                 StartAnimation.Completed += delegate
-                { 
-                    IUser.Source = new BitmapImage(new Uri("pack://application:,,,/Images/ic-user.png"));
+                {
+                    IUser.Source = new BitmapImage(new Uri("pack://application:,,,/RegIN_Markov;component/Images/user.jpeg")); // Исправлен путь
                     DoubleAnimation EndAnimation = new DoubleAnimation();
                     EndAnimation.From = 0;
                     EndAnimation.To = 1;
@@ -133,13 +103,12 @@ namespace RegIN_Markov.Pages
                     IUser.BeginAnimation(Image.OpacityProperty, EndAnimation);
                 };
 
-                // Запускаем анимацию плавной смены на изображении
                 IUser.BeginAnimation(Image.OpacityProperty, StartAnimation);
             }
             if (TbLogin.Text.Length > 0)
                 SetNotification("Login is incorrect", Brushes.Red);
         }
-            
+
         public void CorrectCapture()
         {
             Capture.IsEnabled = false;
@@ -177,7 +146,7 @@ namespace RegIN_Markov.Pages
                             SendMail.SendMessage("An attempt was made to log into your account.", MainWindow.mainWindow.UserLogin.Login);
                         }
                     }
-                }            
+                }
             }
             else
             {
@@ -193,19 +162,19 @@ namespace RegIN_Markov.Pages
                 TbPassword.IsEnabled = false;
                 Capture.IsEnabled = false;
             });
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 180; i++) // Исправлено: 3 минуты = 180 секунд
             {
                 TimeSpan TimeIdle = StartBlock.Subtract(DateTime.Now);
                 string s_minutes = TimeIdle.Minutes.ToString();
                 if (TimeIdle.Minutes < 10)
                     s_minutes = "0" + TimeIdle.Minutes;
                 string s_seconds = TimeIdle.Seconds.ToString();
-                if(TimeIdle.Seconds < 10)
+                if (TimeIdle.Seconds < 10)
                     s_seconds = "0" + TimeIdle.Seconds;
                 Dispatcher.Invoke(() =>
-                    {
-                        SetNotification($"Reathoruization available in: {s_minutes}:{s_seconds}", Brushes.Red);
-                    });
+                {
+                    SetNotification($"Reathoruization available in: {s_minutes}:{s_seconds}", Brushes.Red);
+                });
                 Thread.Sleep(1000);
             }
             Dispatcher.Invoke(() =>
@@ -240,7 +209,6 @@ namespace RegIN_Markov.Pages
             LNameUser.Foreground = _Color;
         }
         private void RecoveryPassword(object sender, MouseButtonEventArgs e) => MainWindow.mainWindow.OpenPage(new Recovery());
-        private void OpenRegin(object sender, MouseButtonEventArgs e) => MainWindow.mainWindow.OpenPage(new Regin());
+        private void OpenRegion(object sender, MouseButtonEventArgs e) => MainWindow.mainWindow.OpenPage(new Regin()); // Исправлено: OpenRegin -> OpenRegion
     }
 }
-
