@@ -13,12 +13,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using Org.BouncyCastle.Bcpg;
-
+using Imaging = Aspose.Imaging;
 namespace RegIN_Markov.Pages
 {
     /// <summary>
@@ -178,7 +177,7 @@ namespace RegIN_Markov.Pages
         {
             if (FileDialogImage.ShowDialog() == true)
             {
-                using (System.Drawing.Image image = System.Drawing.Image.FromFile(FileDialogImage.FileName))
+                using (Imaging.Image image = Imaging.Image.Load(FileDialogImage.FileName))
                 {
                     int NewWidth = 0;
                     int NewHeight = 0;
@@ -193,8 +192,9 @@ namespace RegIN_Markov.Pages
                         NewWidth = 256;
                         NewHeight = (int)(image.Height * (256f / image.Width));
                     }
+                    }
 
-                    using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(image, NewWidth, NewHeight))
+                    using (System bitmap = new System.Drawing.Bitmap(image, NewWidth, NewHeight))
                     {
                         int X = 0;
                         int Y = 0;
